@@ -81,5 +81,5 @@ theme_config:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:wjj5728/wjj5728.github.io.git
+  repo: https://github.com/wjj5728/wjj5728.github.io.git
   branch: master
