@@ -3,19 +3,19 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: 666
+title: 内涵的日常
 subtitle:
-description:
+description: 日常
 keywords:
-author: www
-language:
+author: wjj5728
+language: zh-CN
 timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://neihan.de
 root: /
-permalink: article/:title/
+permalink: :year/:month/:day/:title/
 permalink_defaults:
 
 # Directory

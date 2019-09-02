@@ -1,6 +1,6 @@
 nav:
   home: Inici
-  about: Qui som 
+  about: Qui som
   articles: Articles
   projects: Projectes
   search: Buscar
@@ -9,11 +9,10 @@ footer:
   copyright: Copyright
 
 index:
-  find_me_on: Trobem a
-  enum_comma: ','
+  find_me_on: Trobem
+  enum_comma: ","
   enum_and: i
   articles: Articles
-  projects: Projectes
 
 post:
   desktop:
