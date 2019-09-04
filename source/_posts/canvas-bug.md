@@ -28,3 +28,20 @@ function func () {
  x += step;
 }
 ```
+
+[线上 demo](https://codepen.io/wjj5728/pen/WNeZRQg)
+
+### 解决方法
+
+这是一个在安卓 4.1-4.2 的 bug，采用以下方法进行 canvas 的重新绘制
+
+```base
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+canvas.style.display = 'none';// Detach from DOM
+canvas.offsetHeight; // Force the detach
+canvas.style.display = 'inherit'; // Reattach to DOM
+```
+
+---
+
+参考:[https://stackoverflow.com/questions/53832712/android-4-2-stock-browser-canvas-clearrect-sometimes-doesnt-work](https://stackoverflow.com/questions/53832712/android-4-2-stock-browser-canvas-clearrect-sometimes-doesnt-work)
