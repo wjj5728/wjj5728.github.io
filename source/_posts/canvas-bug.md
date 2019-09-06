@@ -45,3 +45,5 @@ canvas.style.display = 'inherit'; // Reattach to DOM
 ---
 
 参考:[https://stackoverflow.com/questions/53832712/android-4-2-stock-browser-canvas-clearrect-sometimes-doesnt-work](https://stackoverflow.com/questions/53832712/android-4-2-stock-browser-canvas-clearrect-sometimes-doesnt-work)
+
+# End
