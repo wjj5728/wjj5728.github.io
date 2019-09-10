@@ -1,6 +1,8 @@
 <!-- jquery -->
 <%- js('lib/jquery/jquery.min') %> <%- js('lib/justified-gallery/js/jquery.justifiedGallery.min.js') %> <%- js('js/main') %>
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.9"></script>
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
 <!-- search -->
 <% if (config.search && (page.search || page.type === "search")){ %> <%- js('js/search.js') %>
 <script type="text/javascript">
