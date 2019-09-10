@@ -3,6 +3,14 @@
 <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.9"></script>
 <link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css" />
 <script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+    console.log(location.pathname);
+    if (location.pathname == "/" || location.pathname == "") {
+        var typed = new Typed("#typed", {
+            stringsElement: "#typed-strings"
+        });
+    }
+</script>
 <!-- search -->
 <% if (config.search && (page.search || page.type === "search")){ %> <%- js('js/search.js') %>
 <script type="text/javascript">
@@ -83,8 +91,3 @@
     })();
 </script>
 <% } %>
-<script>
-    var typed = new Typed("#typed", {
-        stringsElement: "#typed-strings"
-    });
-</script>
