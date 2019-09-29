@@ -1,37 +1,114 @@
 ---
 title: PNG的压缩
 date: 2019-09-27 09:57:05
-tags:
+tags: 图片压缩
 ---
 
-## 背景
+## PNG 的认识
 
-鉴于之前在公司都是用 tinypng，无奈 tinypng 经常抽风，使用起来很不稳定，压缩图片的服务又经常用到。
+PNG 是一种无损压缩的位图图形格式，支持索引、[灰度](https://zh.wikipedia.org/wiki/%E7%81%B0%E5%BA%A6%E5%9B%BE%E5%83%8F)、[RGB](https://zh.wikipedia.org/wiki/%E4%B8%89%E5%8E%9F%E8%89%B2%E5%85%89%E6%A8%A1%E5%BC%8F)三种颜色方案以及 [Alpha 通道](https://zh.wikipedia.org/wiki/%E9%98%BF%E5%B0%94%E6%B3%95%E9%80%9A%E9%81%93)等特性。
 
-## 图片类型
+最开始 PNG 的开发目的就是为了取代 GIF，因为 PNG 相对于 GIF 有更好的颜色深度支持（gif 最高为 256 色，而 png 为 24 位图像，可以保存 2^24 色），体积也更小。所以被广泛应用。可能之后为了对标 GIF 的动画功能，之后又在 PNG 的文件格式基础上拓展出了 MNG 以及 APNG 这两个支持动画的格式，但是流通性并不好。
 
-### 有损图片
+## PNG 的类型
 
-<!-- ![](/images/title-rule.png) -->
+其实也不能说是类型，而是 PNG 根据不同需求，在像素深度和像素格式上做出的不同搭配。抛开黑白的灰度图片不说，彩色的 PNG 像素格式就是常见的 8,24,32。
 
-JPGE
+### PNG-32
 
-### 无损图片
+PNG-32 每个像素的深度为 32bits，其中 RGBA 四个通道各占 8bits。所谓的 RGBA 四个通道，就是红，绿，蓝，透明 这四种色值各自的大小，都用 8bits 来表示（0 ～ 255）。
 
-Raw、 BMP、 GIF 、FLIF 和 PNG 都是无损的图像格式。 FLIF 声称对各种输入的压缩比优于 PNG、无损 WebP、无损 BPG 和无损 JPEG 2000。
+### PNG-24
 
-### 同时提供了有损压缩与无损压缩
+同理，PNG-24 的像素深度为 24bits，其中 RGB 三个通道各占 8bits。PNG-24 因为没有 Alpha 通道（透明通道），所以不支持透明图片(如果原本是透明的区域将会被转化成白色)。
 
-webp
+### PNG-8
 
-## 图片压缩的分类
+上述两种像素格式都非常好理解，但是似乎按照那种方式来存储图片并不会让图片变小。PNG-8 则作出了一些变动，他将图片中用到的每种颜色都存储在一个长度为 255 的数组中，称之为条色盘，然后每个像素上存储对应颜色在条色盘上的位置。因为颜色上限是 255 种，所以每个像素只需要 8bits 就可以表示对应的颜色信息。这种表示颜色的方式也被称之为索引色。
+PNG-8 相比之下确实使用了更少的空间来存储颜色，但是他能表达的颜色种类是有上限的，所以在将 PNG-32 转换成 PNG-8 时会在一些颜色过渡的地方会明显的看到不平滑的渐变。
 
-### 有损压缩
+![](/images/compression/PNG.png)
 
-### 无损压缩
+## PNG 的压缩过程
 
-## 我们用的
+PNG 压缩过程分为两个阶段：(Filter)Prediction 和 (DEFLATE) Compression
 
-参考： <br/>[https://blog.csdn.net/u010052279/article/details/81224265](https://blog.csdn.net/u010052279/article/details/81224265)<br/> [https://www.keycdn.com/support/what-is-image-compression](https://www.keycdn.com/support/what-is-image-compression) <br/>[https://www.jianshu.com/p/83d00a7e2a4b](https://www.jianshu.com/p/83d00a7e2a4b) <br />[https://pngmini.com/lossypng.html](https://pngmini.com/lossypng.html) <br />[http://nullice.com/limitPNG/#download](http://nullice.com/limitPNG/#download) <br >[https://medium.com/@duhroach/how-png-works-f1174e3cc7b7](https://medium.com/@duhroach/how-png-works-f1174e3cc7b7) <br/>[https://www.jianshu.com/p/4043efd5b944](https://www.jianshu.com/p/4043efd5b944)
+![](/images/compression/1.webp)
+
+### Prediction
+
+在这一阶段，我们每次会处理图片中一行的数据，首先通过 Filter 阶段处理这一行当中每一个的像素点中每条通道的值，也就是我们常说的 ARBG。它交由差分处理器来重新计算该通道的值。差分处理会根据这个像素点上通道和之前或者之上像素点对应通道值之间的差异，进行差分编码，也就是说，如果原本相邻像素点之间通道的值之间很接近，那么我们就会获得很多的 1,0,-1 这种很小的值。这里有两点需要注意：
+
+-   整个 Prediction 阶段的目的，也就是选择合适的差分处理器，让最终的编码结果出现尽可能多的零值和重复值，这一结果将会影响到 Compression 阶段的压缩率。
+-   差分编码器比较的是像素点之间对应通道的值，而并不是整个像素点。
+
+### Compression
+
+在 Prediction 处理完毕之后，再将这一转换的结果输出给 Deflate，Deflate 执行真正的压缩操作，它会通过 LZ77 和 Huffman 对图像进行编码，最后将处理之后的结果保存。在 Compression 阶段，它最终的压缩率会受到两方面的影响：
+
+-   Prediction 的处理结果：对于颜色相近的区域，也就是有很多零值的区域，那么压缩率将会更高，而如果颜色之间差异很大，那么压缩效果将不尽人意。
+-   Deflate 每一行的匹配情况：前面我们分析过，整个处理过程是按行来处理的。而在处理每一行的数据时，Deflate 把处理的符号数限制为 3 ~ 258，也就是说，最大的压缩率为 1032:1，当出现符号数小于 3 个时，那么就有可能出现无法匹配的情况，因此，对于图片宽度的改变将有可能影响最终压缩的效果。
+
+## 影响 PNG 文件大小的因素
+
+### 1.色深
+
+颜色深度可以从每像素 1 到 64 位不等
+
+### 2.辅助块
+
+Png 支持元数据ーー这对于编辑可能很有用，但对于网站浏览则没有必要
+
+### 3.交错
+
+用学术一点的话来说就是，由于 Adam7 算法的每个过程都是单独过滤的，这可以增加文件大小。用白话一点，两者之间的差别就是有交错的，在网络上显示的时候，有交错的图片会由模糊转向清晰。在 PS 导出 web 图片的时候，有一个交错的选项，就是此功能。通常无交错的图片会小一点。
+
+### 4.过滤器
+
+在当前的 PNG 规范中只有一种过滤器方法(表示方法 0) ，因此在实践中，唯一的选择是对每一行应用哪种过滤器类型。 在这种方法中，滤波器根据以前邻近像素的值来预测每个像素的值，并从实际值中减去预测的像素颜色
+
+![](/images/compression/filter.png)
+
+<!-- 5. -->
+
+## 压缩 PNG 的方法
+
+### 1.减少色彩
+
+-   在 filter 的阶段，减少颜色的种类使得紧邻像素之间的区别变少。
+-   因此到了 Deflate 阶段，就可以得到更多重复的数值，那么就可以获得更高的压缩率。
+
+### 2.选择正确的 PNG 格式
+
+如果图片中没有 Alpha 通道，那么就应当使用 PNG 24，而不是使用 PNG 32。类似，如果是灰度的图片，那么应当使用 PNG 8
+
+### 3.使用索引格式的 PNG
+
+如果图片中的颜色种类小于 256，那么就可以使用索引格式的 PNG。它会将这 256 种颜色放到调色板当中，而图片中的每个像素则转换为调色板中颜色的坐标：
+
+![](/images/compression/2.webp)
+
+经过这一转换之后：
+
+-   每个像素所占的位数就由 32 位减少到了 8 位
+-   减少了颜色的种类，这和我们在 2.2 中讨论的优点相同。
+
+因此，如果我们能够把颜色减少到 256 种以下，那么 PNG 的大小将会大大减少。
+
+就是相当于将图片转成 PNG-8 的格式，前提是要知道原图片所含有的颜色在 256 以下，要不然压缩出来的图片会严重失真。
+
+## 压缩 PNG 的工具
+
+各大压缩网站，[tinypng.com](tinypng.com)以压缩效果最好著称。
+
+gulp 的 [imagemin-optipng](https://github.com/imagemin/imagemin-optipng)
+
+webpack 的 [image-webpack-loader](https://github.com/tcoopman/image-webpack-loader)
+
+还有一些 GUI 的工具，[limitPNG](http://nullice.com/limitPNG/#download)
+
+参考：
+<br> [https://juejin.im/post/5a30fa7b6fb9a045023ba23b](https://juejin.im/post/5a30fa7b6fb9a045023ba23b)
+<br/>[https://en.wikipedia.org/wiki/Portable_Network_Graphics](https://en.wikipedia.org/wiki/Portable_Network_Graphics)
 
 # End
