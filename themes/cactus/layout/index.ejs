@@ -10,14 +10,15 @@
       <% for(var link in theme.social_links) { %>
         <% if (link == 'mail') { %>
           <a class="icon" target="_blank" href="<%- url_for(theme.social_links[link]) %>">
-            <i class="fas fa-envelope"></i><!--
-      ---></a><!--
-      ---><% } else { %>
+            <i class="fas fa-envelope"></i>
+        </a>
+        <% } else { %>
           <a class="icon" target="_blank" href="<%- url_for(theme.social_links[link]) %>">
-            <i class="fab fa-<%= link %>"></i><!--
-      ---></a><!--
-    ---><% } %><!--
-    ---><%= ( nb_links > 0 && i < nb_links-1 ?
+            <i class="fab fa-<%= link %>"></i>
+        </a>
+
+        <% } %>
+        <%= ( nb_links > 0 && i < nb_links-1 ?
             ( i == nb_links-2 ? ' '+__('index.enum_and')+' '
             : __('index.enum_comma')+' ' )
             : '.' ) %>
