@@ -65,7 +65,7 @@ if (process.env.NODE_ENV == 'prod') { output = baseConfig } else { output = merg
 
 </details>
 
-这里是 js 的，当我想 ts 加上个 ts-loader 也是没问题的，就时候就出现问题了。当我们在 Laya 编辑模式下制作 ui，之后导出的时候。ts 版本下有一个 layaMaxUI.ts（js 版本无）的文件会自动删除然后生成，webpack 会找不到此文件报错，找不到解决办法，只能回退到 gulp 版本。
+这里是 js 的，当我想 ts 加上个 ts-loader 也是没问题的，就时候就出现问题了。~~当我们在 Laya 编辑模式下制作 ui，之后导出的时候。ts 版本下有一个 layaMaxUI.ts（js 版本无）的文件会自动删除然后生成，webpack 会找不到此文件报错，找不到解决办法，只能回退到 gulp 版本。~~ **场景的导出模式用文件模式即可**。
 
 <details>
 
@@ -191,5 +191,9 @@ css 经常会用到 1px 的背景平铺，Laya 里面也可以用。
 其他的数值可以查看 Laya 对 [FontClip 组件的文档说明](http://layaair.ldc.layabox.com/api2/Chinese/laya/ui/FontClip.html)。
 
 有一个需要注意的点是，每个映射的区块大小要一致，否则会出现切割错误。
+
+部分游戏：
+
+[飞鸡大战](http://huodong.4399.cn/game/minigame/game/AircraftWar/index) <br> [逃出恶魔岛](http://huodong.4399.cn/game/minigame/game/DemonIsland/index)<br> [别碰我](http://huodong.4399.cn/game/minigame/game/doNotHitMe/index)
 
 # End
