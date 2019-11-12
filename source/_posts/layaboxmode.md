@@ -86,6 +86,9 @@ export default class Midui extends GameUI {
 
 文件模式在导出的时候不会对 layaMaxUI.ts 文件进行修改，所以用之前的文章有说到利用 webpack 开发的时候，在运行时因为 layaMaxUI.ts 被重新生成导致的错误就可以解决了，算是一种曲线救国。
 
-参考： <br> [https://juejin.im/post/5d86dda35188253f4c3a6047](https://juejin.im/post/5d86dda35188253f4c3a6047) <br> [https://ldc2.layabox.com/doc/?nav=zh-ts-3-1-12](https://ldc2.layabox.com/doc/?nav=zh-ts-3-1-12) <br>
+参考：
+
+- [https://juejin.im/post/5d86dda35188253f4c3a6047](https://juejin.im/post/5d86dda35188253f4c3a6047)
+- [https://ldc2.layabox.com/doc/?nav=zh-ts-3-1-12](https://ldc2.layabox.com/doc/?nav=zh-ts-3-1-12)
 
 # End

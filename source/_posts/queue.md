@@ -93,6 +93,7 @@ el.addEventListener('click', async () => {
 
 # 参考：
 
-[https://aotu.io/notes/2016/09/02/Different-Binding/index.html](https://aotu.io/notes/2016/09/02/Different-Binding/index.html) [https://blog.boltdoggy.com/articles/2018/06/07/1528305762.html](https://blog.boltdoggy.com/articles/2018/06/07/1528305762.html)
+- [https://aotu.io/notes/2016/09/02/Different-Binding/index.html](https://aotu.io/notes/2016/09/02/Different-Binding/index.html)
+- [https://blog.boltdoggy.com/articles/2018/06/07/1528305762.html](https://blog.boltdoggy.com/articles/2018/06/07/1528305762.html)
 
 # End

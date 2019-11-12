@@ -39,15 +39,15 @@ PNG 压缩过程分为两个阶段：(Filter)Prediction 和 (DEFLATE) Compressio
 
 在这一阶段，我们每次会处理图片中一行的数据，首先通过 Filter 阶段处理这一行当中每一个的像素点中每条通道的值，也就是我们常说的 ARBG。它交由差分处理器来重新计算该通道的值。差分处理会根据这个像素点上通道和之前或者之上像素点对应通道值之间的差异，进行差分编码，也就是说，如果原本相邻像素点之间通道的值之间很接近，那么我们就会获得很多的 1,0,-1 这种很小的值。这里有两点需要注意：
 
--   整个 Prediction 阶段的目的，也就是选择合适的差分处理器，让最终的编码结果出现尽可能多的零值和重复值，这一结果将会影响到 Compression 阶段的压缩率。
--   差分编码器比较的是像素点之间对应通道的值，而并不是整个像素点。
+- 整个 Prediction 阶段的目的，也就是选择合适的差分处理器，让最终的编码结果出现尽可能多的零值和重复值，这一结果将会影响到 Compression 阶段的压缩率。
+- 差分编码器比较的是像素点之间对应通道的值，而并不是整个像素点。
 
 ### Compression
 
 在 Prediction 处理完毕之后，再将这一转换的结果输出给 Deflate，Deflate 执行真正的压缩操作，它会通过 LZ77 和 Huffman 对图像进行编码，最后将处理之后的结果保存。在 Compression 阶段，它最终的压缩率会受到两方面的影响：
 
--   Prediction 的处理结果：对于颜色相近的区域，也就是有很多零值的区域，那么压缩率将会更高，而如果颜色之间差异很大，那么压缩效果将不尽人意。
--   Deflate 每一行的匹配情况：前面我们分析过，整个处理过程是按行来处理的。而在处理每一行的数据时，Deflate 把处理的符号数限制为 3 ~ 258，也就是说，最大的压缩率为 1032:1，当出现符号数小于 3 个时，那么就有可能出现无法匹配的情况，因此，对于图片宽度的改变将有可能影响最终压缩的效果。
+- Prediction 的处理结果：对于颜色相近的区域，也就是有很多零值的区域，那么压缩率将会更高，而如果颜色之间差异很大，那么压缩效果将不尽人意。
+- Deflate 每一行的匹配情况：前面我们分析过，整个处理过程是按行来处理的。而在处理每一行的数据时，Deflate 把处理的符号数限制为 3 ~ 258，也就是说，最大的压缩率为 1032:1，当出现符号数小于 3 个时，那么就有可能出现无法匹配的情况，因此，对于图片宽度的改变将有可能影响最终压缩的效果。
 
 ## 影响 PNG 文件大小的因素
 
@@ -75,8 +75,8 @@ Png 支持元数据ーー这对于编辑可能很有用，但对于网站浏览�
 
 ### 1.减少色彩
 
--   在 filter 的阶段，减少颜色的种类使得紧邻像素之间的区别变少。
--   因此到了 Deflate 阶段，就可以得到更多重复的数值，那么就可以获得更高的压缩率。
+- 在 filter 的阶段，减少颜色的种类使得紧邻像素之间的区别变少。
+- 因此到了 Deflate 阶段，就可以得到更多重复的数值，那么就可以获得更高的压缩率。
 
 ### 2.选择正确的 PNG 格式
 
@@ -90,8 +90,8 @@ Png 支持元数据ーー这对于编辑可能很有用，但对于网站浏览�
 
 经过这一转换之后：
 
--   每个像素所占的位数就由 32 位减少到了 8 位
--   减少了颜色的种类，这和我们在 2.2 中讨论的优点相同。
+- 每个像素所占的位数就由 32 位减少到了 8 位
+- 减少了颜色的种类，这和我们在 2.2 中讨论的优点相同。
 
 因此，如果我们能够把颜色减少到 256 种以下，那么 PNG 的大小将会大大减少。
 
@@ -108,7 +108,8 @@ webpack 的 [image-webpack-loader](https://github.com/tcoopman/image-webpack-loa
 还有一些 GUI 的工具，[limitPNG](http://nullice.com/limitPNG/#download)
 
 参考：
-<br> [https://juejin.im/post/5a30fa7b6fb9a045023ba23b](https://juejin.im/post/5a30fa7b6fb9a045023ba23b)
-<br/>[https://en.wikipedia.org/wiki/Portable_Network_Graphics](https://en.wikipedia.org/wiki/Portable_Network_Graphics)
+
+- [https://juejin.im/post/5a30fa7b6fb9a045023ba23b](https://juejin.im/post/5a30fa7b6fb9a045023ba23b)
+- [https://en.wikipedia.org/wiki/Portable_Network_Graphics](https://en.wikipedia.org/wiki/Portable_Network_Graphics)
 
 # End

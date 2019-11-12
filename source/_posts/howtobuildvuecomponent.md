@@ -104,6 +104,8 @@ Vue.use(DemoUi);
 
 有点要注意的是，每次 publish， package.json 中的 version 都要比之前大。否则无法发布。
 
-参考：[element](https://github.com/ElemeFE/element)
+参考：
+
+- [element](https://github.com/ElemeFE/element)
 
 # End

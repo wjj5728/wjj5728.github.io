@@ -194,6 +194,8 @@ css 经常会用到 1px 的背景平铺，Laya 里面也可以用。
 
 部分游戏：
 
-[飞鸡大战](http://huodong.4399.cn/game/minigame/game/AircraftWar/index) <br> [逃出恶魔岛](http://huodong.4399.cn/game/minigame/game/DemonIsland/index)<br> [别碰我](http://huodong.4399.cn/game/minigame/game/doNotHitMe/index)
+- [飞鸡大战](http://huodong.4399.cn/game/minigame/game/AircraftWar/index)
+- [逃出恶魔岛](http://huodong.4399.cn/game/minigame/game/DemonIsland/index)
+- [别碰我](http://huodong.4399.cn/game/minigame/game/doNotHitMe/index)
 
 # End
