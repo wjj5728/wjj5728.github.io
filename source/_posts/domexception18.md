@@ -26,7 +26,33 @@ crossOrigin 在 pc 端上有兼容性问题，例如 IE10，而在移动端，�
 
 3. 通过 ajax 请求
 
+```
+var xhr = new XMLHttpRequest();
+xhr.onload = function() {
+  if (xhr.status == 200) {
+    var uInt8Array = new Uint8Array(xhr.response);
+    var i = uInt8Array.length;
+    var binaryString = new Array(i);
+    while (i--) {
+      binaryString[i] = String.fromCharCode(uInt8Array[i]);
+    }
+    var data = binaryString.join("");
+    var base64 = window.btoa(data);
+    var dataUrl =
+      "data:image/png;base64," + base64;
+    ...
+  }
+};
+xhr.open("GET", url, true);  // url为线上图片地址
+xhr.responseType = "arraybuffer";
+xhr.send();
+```
+
+简单的一个请求即可得到相对应的 base64，也可以封装一个 canvas 的资源加载器，利用该方法即可，一些游戏引擎，比如 layabox 就是通过 ajax 来加载资源的。
+
+# End
+
 参考
 
--   [https://www.jianshu.com/p/c3aa975923de](https://www.jianshu.com/p/c3aa975923de)
--   [https://www.zhangxinxu.com/wordpress/2018/02/crossorigin-canvas-getimagedata-cors/](https://www.zhangxinxu.com/wordpress/2018/02/crossorigin-canvas-getimagedata-cors/)
+- [https://www.jianshu.com/p/c3aa975923de](https://www.jianshu.com/p/c3aa975923de)
+- [https://www.zhangxinxu.com/wordpress/2018/02/crossorigin-canvas-getimagedata-cors/](https://www.zhangxinxu.com/wordpress/2018/02/crossorigin-canvas-getimagedata-cors/)
