@@ -5,7 +5,10 @@
     </div>
 </div>
 <% } %> <% if(page.comments && theme.gitalk.enabled){ %>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css" />
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css"
+/>
 <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
 <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js"></script>
 <div id="gitalk-container"></div>
@@ -20,5 +23,19 @@
         distractionFreeMode: "<%= theme.gitalk.on %>"
     });
     gitalk.render("gitalk-container");
+</script>
+<% } %> <% if(theme.valine.enable) { %>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<div id="vcomments" class="blog-post-comments"></div>
+<script>
+    new Valine({
+        el: "#vcomments",
+        visitor: true,
+        appId: "<%=theme.valine.app_id %>",
+        appKey: "<%=theme.valine.app_key %>",
+        placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+        avatar: "wjj5728"
+    });
 </script>
 <% } %>
