@@ -17,6 +17,8 @@ nav:
     home: /
     about: /about/
     articles: /archives/
+    categories: /categories/
+    tags: /tags/
 
 # Links to your social media accounts.
 # The keys should correspond to Fontawesome icon names
