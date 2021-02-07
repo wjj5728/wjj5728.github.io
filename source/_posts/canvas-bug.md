@@ -1,6 +1,7 @@
 ---
 title: 记一次canvas不断绘制在安卓低版本下的bug
 date: 2019-06-19 16:00:00
+categories: canvas
 tags: canvas
 ---
 

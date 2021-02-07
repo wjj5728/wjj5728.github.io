@@ -1,6 +1,7 @@
 ---
 title: PNG的压缩
 date: 2019-09-27 09:57:05
+categories: 其他
 tags: 图片压缩
 ---
 

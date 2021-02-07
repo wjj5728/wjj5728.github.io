@@ -1,6 +1,7 @@
 ---
 title: Promise的顺序执行
 date: 2019-09-18 19:03:59
+categories: 其他
 tags: promise
 ---
 

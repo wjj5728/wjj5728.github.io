@@ -1,7 +1,8 @@
 ---
 title: 记录一些使用Layabox的技巧
 date: 2019-09-30 14:11:11
-tags: 小游戏
+categories: 小游戏引擎
+tags: Layabox
 ---
 
 LayaBox 作为新生代的 H5 游戏引擎，号称用到了极致的性能（当然白鹭、cocos 也是这么说的），此文就记录一些工作过程中用到 laya 的一些技巧。

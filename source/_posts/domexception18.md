@@ -1,6 +1,7 @@
 ---
 title: Dom Exception 18
 date: 2019-12-08 10:01:16
+categories: 遇到的问题
 tags: canvas
 ---
 

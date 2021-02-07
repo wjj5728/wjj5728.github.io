@@ -1,7 +1,8 @@
 ---
 title: layabox场景的四种导出模式
 date: 2019-10-09 14:17:13
-tags: 小游戏
+categories: 小游戏引擎
+tags: Layabox
 ---
 
 用 layabox 开发了几款游戏，对于场景的导出模式一直没有详细了解，翻了翻资料搞起。
