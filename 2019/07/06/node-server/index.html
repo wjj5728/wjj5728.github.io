@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="最近整了一台服务器，记录一下。(阿里云轻型服务器，centos7.2) 安装依赖一些必要的依赖 libs 1yum -y install gcc make gcc-c++ openssl-devel 安装 node 环境安装 node 包 123456789wget https://npm.taobao.org/mirrors/node/v10.16.1/node-v10.16.1-linux-x">
+<meta name="keywords" content="服务器">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建阿里云服务器记录">
+<meta property="og:url" content="https://jjjjjj.wang/2019/07/06/node-server/index.html">
+<meta property="og:site_name" content="wjj">
+<meta property="og:description" content="最近整了一台服务器，记录一下。(阿里云轻型服务器，centos7.2) 安装依赖一些必要的依赖 libs 1yum -y install gcc make gcc-c++ openssl-devel 安装 node 环境安装 node 包 123456789wget https://npm.taobao.org/mirrors/node/v10.16.1/node-v10.16.1-linux-x">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-02-10T02:17:43.870Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建阿里云服务器记录">
+<meta name="twitter:description" content="最近整了一台服务器，记录一下。(阿里云轻型服务器，centos7.2) 安装依赖一些必要的依赖 libs 1yum -y install gcc make gcc-c++ openssl-devel 安装 node 环境安装 node 包 123456789wget https://npm.taobao.org/mirrors/node/v10.16.1/node-v10.16.1-linux-x">    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+       
+    <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+       
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+      
+    <!-- title -->
+    <title>搭建阿里云服务器记录</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+     <link rel="stylesheet" href="/css/rtl.css"> 
+    <!-- rss -->
+     
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/09/18/queue/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/06/19/canvas-bug/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://jjjjjj.wang/2019/07/06/node-server/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://jjjjjj.wang/2019/07/06/node-server/&text=搭建阿里云服务器记录"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://jjjjjj.wang/2019/07/06/node-server/&title=搭建阿里云服务器记录"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jjjjjj.wang/2019/07/06/node-server/&is_video=false&description=搭建阿里云服务器记录"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=搭建阿里云服务器记录&body=Check out this article: https://jjjjjj.wang/2019/07/06/node-server/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://jjjjjj.wang/2019/07/06/node-server/&title=搭建阿里云服务器记录"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://jjjjjj.wang/2019/07/06/node-server/&title=搭建阿里云服务器记录"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://jjjjjj.wang/2019/07/06/node-server/&title=搭建阿里云服务器记录"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://jjjjjj.wang/2019/07/06/node-server/&title=搭建阿里云服务器记录"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://jjjjjj.wang/2019/07/06/node-server/&name=搭建阿里云服务器记录&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装依赖"><span class="toc-number">1.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-node-环境"><span class="toc-number">2.</span> <span class="toc-text">安装 node 环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-nginx"><span class="toc-number">3.</span> <span class="toc-text">安装 nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-git"><span class="toc-number">4.</span> <span class="toc-text">安装 git</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-mongodb"><span class="toc-number">5.</span> <span class="toc-text">安装 mongodb</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#End"><span class="toc-number"></span> <span class="toc-text">End</span></a>
+    </li></div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        
+    <h1 class="posttitle" itemprop="name headline">
+        搭建阿里云服务器记录
+    </h1>
+
+
+
+        <div class="meta">
+            <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span itemprop="name">wjj</span>
+            </span>
+            
+<div class="postdate">
+    
+    <time datetime="2019-07-06T08:51:17.000Z" itemprop="datePublished">2019-07-06</time>
+     
+</div>
+
+ 
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/服务器/">服务器</a>
+    </div>
+
+ 
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/服务器/">服务器</a>
+    </div>
+
+
+        </div>
+    </header>
+    
+
+    <div class="content" itemprop="articleBody">
+        <p>最近整了一台服务器，记录一下。(阿里云轻型服务器，centos7.2)</p>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><p>一些必要的依赖 libs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install gcc make gcc-c++ openssl-devel</span><br></pre></td></tr></table></figure>
+<h3 id="安装-node-环境"><a href="#安装-node-环境" class="headerlink" title="安装 node 环境"></a>安装 node 环境</h3><p>安装 node 包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">wget https://npm.taobao.org/mirrors/node/v10.16.1/node-v10.16.1-linux-x64.tar.xz</span><br><span class="line"></span><br><span class="line">xz -d</span><br><span class="line"></span><br><span class="line">tar -xvf</span><br><span class="line"></span><br><span class="line">&lt;!-- 配置全局命令 --&gt;</span><br><span class="line">ln -s /root/node-v10.16.1-linux-x64/bin/node /usr/local/bin/node</span><br><span class="line">ln -s /root/node-v10.16.1-linux-x64/bin/npm /usr/local/bin/npm</span><br></pre></td></tr></table></figure>
+<p><a href="https://blog.csdn.net/qingaoti/article/details/80536933" target="_blank" rel="noopener">权限配置</a></p>
+<h3 id="安装-nginx"><a href="#安装-nginx" class="headerlink" title="安装 nginx"></a>安装 nginx</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wget -c https://nginx.org/download/nginx-1.16.0.tar.gz</span><br><span class="line"></span><br><span class="line">tar -zxvf nginx-1.12.0.tar.gz</span><br><span class="line"></span><br><span class="line">./configure</span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">make install</span><br><span class="line"></span><br><span class="line">ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx</span><br></pre></td></tr></table></figure>
+<h3 id="安装-git"><a href="#安装-git" class="headerlink" title="安装 git"></a>安装 git</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install git</span><br></pre></td></tr></table></figure>
+<h3 id="安装-mongodb"><a href="#安装-mongodb" class="headerlink" title="安装 mongodb"></a>安装 mongodb</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/yum.repos.d/mongodb-org-3.4.repo</span><br></pre></td></tr></table></figure>
+<p>添加以下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[mongodb-org-3.4]</span><br><span class="line">name=MongoDB Repository</span><br><span class="line">baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.4/x86_64/</span><br><span class="line">gpgcheck=1</span><br><span class="line">enabled=1</span><br><span class="line">gpgkey=https://www.mongodb.org/static/pgp/server-3.4.asc</span><br></pre></td></tr></table></figure>
+<p>执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install mongodb-org</span><br></pre></td></tr></table></figure>
+<h1 id="End"><a href="#End" class="headerlink" title="End"></a>End</h1>
+    </div>
+</article>
+  
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<div id="vcomments" class="blog-post-comments"></div>
+<script>
+    new Valine({
+        el: "#vcomments",
+        visitor: true,
+        appId: "2xcWTiUA1azC7qF6MSMdw05m-gzGzoHsz",
+        appKey: "PT30B2tFSuw0EUwKKyu0629o",
+        placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+        avatar: "wjj5728"
+    });
+</script>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装依赖"><span class="toc-number">1.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-node-环境"><span class="toc-number">2.</span> <span class="toc-text">安装 node 环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-nginx"><span class="toc-number">3.</span> <span class="toc-text">安装 nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-git"><span class="toc-number">4.</span> <span class="toc-text">安装 git</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-mongodb"><span class="toc-number">5.</span> <span class="toc-text">安装 mongodb</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#End"><span class="toc-number"></span> <span class="toc-text">End</span></a>
+    </li></div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://jjjjjj.wang/2019/07/06/node-server/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://jjjjjj.wang/2019/07/06/node-server/&text=搭建阿里云服务器记录"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://jjjjjj.wang/2019/07/06/node-server/&title=搭建阿里云服务器记录"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jjjjjj.wang/2019/07/06/node-server/&is_video=false&description=搭建阿里云服务器记录"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=搭建阿里云服务器记录&body=Check out this article: https://jjjjjj.wang/2019/07/06/node-server/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://jjjjjj.wang/2019/07/06/node-server/&title=搭建阿里云服务器记录"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://jjjjjj.wang/2019/07/06/node-server/&title=搭建阿里云服务器记录"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://jjjjjj.wang/2019/07/06/node-server/&title=搭建阿里云服务器记录"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://jjjjjj.wang/2019/07/06/node-server/&title=搭建阿里云服务器记录"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://jjjjjj.wang/2019/07/06/node-server/&name=搭建阿里云服务器记录&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2021 wjj5728
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<!-- <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"> -->
+<link href="https://cdn.bootcss.com/font-awesome/5.2.0/css/all.min.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css"> -->
+<link href="https://cdn.bootcss.com/justifiedGallery/3.7.0/css/justifiedGallery.min.css" rel="stylesheet">
+
+    <!-- jquery -->
+<!-- <script src="/lib/jquery/jquery.min.js"></script>  -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>  -->
+<script src="https://cdn.bootcss.com/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- gitalk -->
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?aba5976c4f26b44fdd1725fe918f86f1";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

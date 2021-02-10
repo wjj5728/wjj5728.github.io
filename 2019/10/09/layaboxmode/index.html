@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="用 layabox 开发了几款游戏，对于场景的导出模式一直没有详细了解，翻了翻资料搞起。 以下代码是在 LayaIde2.0.2 ts 版本下进行。  官网已经很详细的写出了四种模式的特点差异。 内嵌模式内嵌模式会把编辑器的 UI 内容生成一个场景类代码文件，代码脚本里包含 IDE 创建的 UI 场景的信息，在小游戏和轻游戏还没有问世的时候，不用考虑 js 的大小，正常开发 h5 最常用的选择，而">
+<meta name="keywords" content="Layabox">
+<meta property="og:type" content="article">
+<meta property="og:title" content="layabox场景的四种导出模式">
+<meta property="og:url" content="https://jjjjjj.wang/2019/10/09/layaboxmode/index.html">
+<meta property="og:site_name" content="wjj">
+<meta property="og:description" content="用 layabox 开发了几款游戏，对于场景的导出模式一直没有详细了解，翻了翻资料搞起。 以下代码是在 LayaIde2.0.2 ts 版本下进行。  官网已经很详细的写出了四种模式的特点差异。 内嵌模式内嵌模式会把编辑器的 UI 内容生成一个场景类代码文件，代码脚本里包含 IDE 创建的 UI 场景的信息，在小游戏和轻游戏还没有问世的时候，不用考虑 js 的大小，正常开发 h5 最常用的选择，而">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jjjjjj.wang/images/layamode/layamode-1.png">
+<meta property="og:image" content="https://jjjjjj.wang/images/layamode/layamode-2.png">
+<meta property="og:image" content="https://jjjjjj.wang/images/layamode/layamode-4.png">
+<meta property="og:image" content="https://jjjjjj.wang/images/layamode/layamode-5.png">
+<meta property="og:image" content="https://jjjjjj.wang/images/layamode/layamode-6.png">
+<meta property="og:updated_time" content="2021-02-10T02:17:43.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="layabox场景的四种导出模式">
+<meta name="twitter:description" content="用 layabox 开发了几款游戏，对于场景的导出模式一直没有详细了解，翻了翻资料搞起。 以下代码是在 LayaIde2.0.2 ts 版本下进行。  官网已经很详细的写出了四种模式的特点差异。 内嵌模式内嵌模式会把编辑器的 UI 内容生成一个场景类代码文件，代码脚本里包含 IDE 创建的 UI 场景的信息，在小游戏和轻游戏还没有问世的时候，不用考虑 js 的大小，正常开发 h5 最常用的选择，而">
+<meta name="twitter:image" content="https://jjjjjj.wang/images/layamode/layamode-1.png">    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+       
+    <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+       
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+      
+    <!-- title -->
+    <title>layabox场景的四种导出模式</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+     <link rel="stylesheet" href="/css/rtl.css"> 
+    <!-- rss -->
+     
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/12/08/domexception18/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/09/30/laya-skill/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://jjjjjj.wang/2019/10/09/layaboxmode/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&text=layabox场景的四种导出模式"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&title=layabox场景的四种导出模式"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&is_video=false&description=layabox场景的四种导出模式"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=layabox场景的四种导出模式&body=Check out this article: https://jjjjjj.wang/2019/10/09/layaboxmode/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&title=layabox场景的四种导出模式"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&title=layabox场景的四种导出模式"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&title=layabox场景的四种导出模式"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&title=layabox场景的四种导出模式"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&name=layabox场景的四种导出模式&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内嵌模式"><span class="toc-number">1.</span> <span class="toc-text">内嵌模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加载模式"><span class="toc-number">2.</span> <span class="toc-text">加载模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分离模式"><span class="toc-number">3.</span> <span class="toc-text">分离模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件模式"><span class="toc-number">4.</span> <span class="toc-text">文件模式</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#End"><span class="toc-number"></span> <span class="toc-text">End</span></a>
+    </li></div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        
+    <h1 class="posttitle" itemprop="name headline">
+        layabox场景的四种导出模式
+    </h1>
+
+
+
+        <div class="meta">
+            <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span itemprop="name">wjj</span>
+            </span>
+            
+<div class="postdate">
+    
+    <time datetime="2019-10-09T06:17:13.000Z" itemprop="datePublished">2019-10-09</time>
+     
+</div>
+
+ 
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/小游戏引擎/">小游戏引擎</a>
+    </div>
+
+ 
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Layabox/">Layabox</a>
+    </div>
+
+
+        </div>
+    </header>
+    
+
+    <div class="content" itemprop="articleBody">
+        <p>用 layabox 开发了几款游戏，对于场景的导出模式一直没有详细了解，翻了翻资料搞起。</p>
+<p>以下代码是在 LayaIde2.0.2 ts 版本下进行。</p>
+<p><img src="/images/layamode/layamode-1.png" alt></p>
+<p>官网已经很详细的写出了四种模式的特点差异。</p>
+<h2 id="内嵌模式"><a href="#内嵌模式" class="headerlink" title="内嵌模式"></a><strong>内嵌模式</strong></h2><p>内嵌模式会把编辑器的 UI 内容生成一个场景类代码文件，代码脚本里包含 IDE 创建的 UI 场景的信息，在小游戏和轻游戏还没有问世的时候，不用考虑 js 的大小，正常开发 h5 最常用的选择，而且不涉及异步加载打开页面速度也最快。</p>
+<p><img src="/images/layamode/layamode-2.png" alt></p>
+<p><font color="red">注意事项：</font><br>1.因为内嵌没有场景文件，所以无法使用 scene.open，只能在开头 new，然后 addChild 到 stage</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">import &#123;ui&#125; from &apos;./ui/layaMaxUI&apos;</span><br><span class="line">// GameConfig.startScene &amp;&amp; Laya.Scene.open(GameConfig.startScene);</span><br><span class="line">let view = new ui.test.TestSceneUI();</span><br><span class="line">Laya.stage.addChild(view)</span><br></pre></td></tr></table></figure>
+<p>2.不能使用 renderType = “instance” 的单例界面机制，目前这个机制是写在 scene.open 里面。</p>
+<h2 id="加载模式"><a href="#加载模式" class="headerlink" title="加载模式"></a><strong>加载模式</strong></h2><p>加载模式也会生成场景类，其他的 UI 数据信息会放到一个 bin 文件下的 ui.json 内，使用时需要加载这个 json，同样在没有小游戏的时代不常用，场景信息可以不在 js 中，可以节省 js 包体大小，给小游戏 4m 包节省更多空间。使用时可以作为资源加载。</p>
+<p>下面是代码是官方的 2D 实例</p>
+<p>由于编辑器加载模式下导出的 layaMaxUI.ts 文件中加载场景用到的 loadScene 是用在加载单独的场景 json，所以需要注释掉，用一个新的场景作为中间件将我们从 ui.json 的场景数据设置一下。首先先加载资源然后将 ui 的配置数据存于<a href="http://layaair.ldc.layabox.com/api/laya/ui/View.html#uiMap" target="_blank" rel="noopener">Laya.View.uiMap</a>，然后在需要的地方取出来。</p>
+<p><img src="/images/layamode/layamode-4.png" alt></p>
+<p><strong>Main.ts</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">主动加载场景资源</span><br><span class="line">Laya.loader.load([&#123;</span><br><span class="line">    url: &apos;ui.json&apos;,</span><br><span class="line">	type: Laya.Loader.JSON</span><br><span class="line">&#125;], Laya.Handler.create(this, () =&gt; &#123;</span><br><span class="line">	let res = Laya.Loader.getRes(&apos;ui.json&apos;)</span><br><span class="line">	Laya.View.uiMap = Laya.Loader.getRes(&apos;ui.json&apos;)</span><br><span class="line">	let scene = new mid(&quot;test/TestScene&quot;)</span><br><span class="line">	Laya.stage.addChild(scene)</span><br><span class="line">&#125;))</span><br></pre></td></tr></table></figure>
+<p><strong>midUi.ts</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import GameUI from &apos;./GameUI&apos; &lt;!-- 如果没有继承的基类，可以继承于Laya.Scene --&gt;</span><br><span class="line">export default class Midui extends GameUI &#123;</span><br><span class="line">    constructor(name) &#123;</span><br><span class="line">        super()</span><br><span class="line">        this.createView(Laya.View.uiMap[name]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><font color="red">注意事项：</font><br>整个感觉不是很好用，还需要一个中间层，如果是场景多的情况下，管理起来会比较麻烦，而且不解耦，万一一个场景编译出错，可能会导致一连串的错误，毕竟 Laya 的编辑器感觉信不过，优点是可以减少一些请求还是不错的，减少包的大小。</p>
+<h2 id="分离模式"><a href="#分离模式" class="headerlink" title="分离模式"></a><strong>分离模式</strong></h2><p>分离模式是在加载模式基础上，同样也会生成场景类，但他会把每个场景生成单独的场景数据文件，每次单独加载场景文件，区别于加载模式一次把所有场景都加载。在 2.0 以后，开发小游戏或轻游戏，为了减少主包大小和提升加载速度都是常用的模式。</p>
+<p><img src="/images/layamode/layamode-5.png" alt></p>
+<p>生成了场景类</p>
+<h2 id="文件模式"><a href="#文件模式" class="headerlink" title="文件模式"></a><strong>文件模式</strong></h2><p>文件模式是 2.0 特有的，为了开发小游戏而创建的，他不生成场景类，也就是能进一步减少 js 包的大小，使用的时候用 Scene.load 方式加载，区别于前三种最大的的不同就是，文件模式不能直接调用场景内的变量，需要 getchild 获取之后进行操作。前三种的场景类里声明了变量，有代码提示直接可以操作内部的变量。</p>
+<p><img src="/images/layamode/layamode-6.png" alt></p>
+<p>其实两者是差不多的，只是文件模式没有生成场景类，这一点导致二者在使用场景中的 UI 组件时会有一点点小小的差异，分离模式可以直接通过 this 对象来找到组件，例如 this.input，而文件模式只能通过 this.getChildByName(‘xxx’)来获取。个人感觉分离模式会对开发友好一点，但是官方推荐的是文件模式。</p>
+<p>文件模式在导出的时候不会对 layaMaxUI.ts 文件进行修改，所以用之前的文章有说到利用 webpack 开发的时候，在运行时因为 layaMaxUI.ts 被重新生成导致的错误就可以解决了，算是一种曲线救国。</p>
+<p>参考：</p>
+<ul>
+<li><a href="https://juejin.im/post/5d86dda35188253f4c3a6047" target="_blank" rel="noopener">https://juejin.im/post/5d86dda35188253f4c3a6047</a></li>
+<li><a href="https://ldc2.layabox.com/doc/?nav=zh-ts-3-1-12" target="_blank" rel="noopener">https://ldc2.layabox.com/doc/?nav=zh-ts-3-1-12</a></li>
+</ul>
+<h1 id="End"><a href="#End" class="headerlink" title="End"></a>End</h1>
+    </div>
+</article>
+  
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<div id="vcomments" class="blog-post-comments"></div>
+<script>
+    new Valine({
+        el: "#vcomments",
+        visitor: true,
+        appId: "2xcWTiUA1azC7qF6MSMdw05m-gzGzoHsz",
+        appKey: "PT30B2tFSuw0EUwKKyu0629o",
+        placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+        avatar: "wjj5728"
+    });
+</script>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内嵌模式"><span class="toc-number">1.</span> <span class="toc-text">内嵌模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#加载模式"><span class="toc-number">2.</span> <span class="toc-text">加载模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#分离模式"><span class="toc-number">3.</span> <span class="toc-text">分离模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#文件模式"><span class="toc-number">4.</span> <span class="toc-text">文件模式</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#End"><span class="toc-number"></span> <span class="toc-text">End</span></a>
+    </li></div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://jjjjjj.wang/2019/10/09/layaboxmode/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&text=layabox场景的四种导出模式"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&title=layabox场景的四种导出模式"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&is_video=false&description=layabox场景的四种导出模式"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=layabox场景的四种导出模式&body=Check out this article: https://jjjjjj.wang/2019/10/09/layaboxmode/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&title=layabox场景的四种导出模式"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&title=layabox场景的四种导出模式"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&title=layabox场景的四种导出模式"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&title=layabox场景的四种导出模式"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://jjjjjj.wang/2019/10/09/layaboxmode/&name=layabox场景的四种导出模式&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2021 wjj5728
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<!-- <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"> -->
+<link href="https://cdn.bootcss.com/font-awesome/5.2.0/css/all.min.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css"> -->
+<link href="https://cdn.bootcss.com/justifiedGallery/3.7.0/css/justifiedGallery.min.css" rel="stylesheet">
+
+    <!-- jquery -->
+<!-- <script src="/lib/jquery/jquery.min.js"></script>  -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>  -->
+<script src="https://cdn.bootcss.com/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- gitalk -->
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?aba5976c4f26b44fdd1725fe918f86f1";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

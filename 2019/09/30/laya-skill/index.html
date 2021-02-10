@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="LayaBox 作为新生代的 H5 游戏引擎，号称用到了极致的性能（当然白鹭、cocos 也是这么说的），此文就记录一些工作过程中用到 laya 的一些技巧。 构建方式由于 Laya 的编辑是通过 vscode 改造的，当然很多功能也跟 vscode 进行了结合，编译的 F5 按键，开发的时候可能都已经按到手软。是时候解放双手了。 Laya 在立项的时候可以选择 js、ts、as 作为变成语言，身">
+<meta name="keywords" content="Layabox">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录一些使用Layabox的技巧">
+<meta property="og:url" content="https://jjjjjj.wang/2019/09/30/laya-skill/index.html">
+<meta property="og:site_name" content="wjj">
+<meta property="og:description" content="LayaBox 作为新生代的 H5 游戏引擎，号称用到了极致的性能（当然白鹭、cocos 也是这么说的），此文就记录一些工作过程中用到 laya 的一些技巧。 构建方式由于 Laya 的编辑是通过 vscode 改造的，当然很多功能也跟 vscode 进行了结合，编译的 F5 按键，开发的时候可能都已经按到手软。是时候解放双手了。 Laya 在立项的时候可以选择 js、ts、as 作为变成语言，身">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://jjjjjj.wang/images/laya-skill/layaskill-1.png">
+<meta property="og:image" content="https://jjjjjj.wang/images/laya-skill/layaskill-2.png">
+<meta property="og:image" content="https://jjjjjj.wang/images/laya-skill/jiku-bg-line.png">
+<meta property="og:image" content="https://jjjjjj.wang/images/laya-skill/layaskill-3.png">
+<meta property="og:image" content="https://jjjjjj.wang/images/laya-skill/layaskill-4.png">
+<meta property="og:image" content="https://jjjjjj.wang/images/laya-skill/sprites.png">
+<meta property="og:image" content="https://jjjjjj.wang/images/laya-skill/layaskill-5.png">
+<meta property="og:updated_time" content="2021-02-10T02:17:43.868Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记录一些使用Layabox的技巧">
+<meta name="twitter:description" content="LayaBox 作为新生代的 H5 游戏引擎，号称用到了极致的性能（当然白鹭、cocos 也是这么说的），此文就记录一些工作过程中用到 laya 的一些技巧。 构建方式由于 Laya 的编辑是通过 vscode 改造的，当然很多功能也跟 vscode 进行了结合，编译的 F5 按键，开发的时候可能都已经按到手软。是时候解放双手了。 Laya 在立项的时候可以选择 js、ts、as 作为变成语言，身">
+<meta name="twitter:image" content="https://jjjjjj.wang/images/laya-skill/layaskill-1.png">    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+       
+    <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+       
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+      
+    <!-- title -->
+    <title>记录一些使用Layabox的技巧</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+     <link rel="stylesheet" href="/css/rtl.css"> 
+    <!-- rss -->
+     
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2019/10/09/layaboxmode/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2019/09/27/pngcompression/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://jjjjjj.wang/2019/09/30/laya-skill/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://jjjjjj.wang/2019/09/30/laya-skill/&text=记录一些使用Layabox的技巧"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://jjjjjj.wang/2019/09/30/laya-skill/&title=记录一些使用Layabox的技巧"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jjjjjj.wang/2019/09/30/laya-skill/&is_video=false&description=记录一些使用Layabox的技巧"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记录一些使用Layabox的技巧&body=Check out this article: https://jjjjjj.wang/2019/09/30/laya-skill/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://jjjjjj.wang/2019/09/30/laya-skill/&title=记录一些使用Layabox的技巧"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://jjjjjj.wang/2019/09/30/laya-skill/&title=记录一些使用Layabox的技巧"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://jjjjjj.wang/2019/09/30/laya-skill/&title=记录一些使用Layabox的技巧"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://jjjjjj.wang/2019/09/30/laya-skill/&title=记录一些使用Layabox的技巧"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://jjjjjj.wang/2019/09/30/laya-skill/&name=记录一些使用Layabox的技巧&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#构建方式"><span class="toc-number">1.</span> <span class="toc-text">构建方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#背景的平铺"><span class="toc-number">2.</span> <span class="toc-text">背景的平铺</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字体切片"><span class="toc-number">3.</span> <span class="toc-text">字体切片</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#End"><span class="toc-number"></span> <span class="toc-text">End</span></a>
+    </li></div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        
+    <h1 class="posttitle" itemprop="name headline">
+        记录一些使用Layabox的技巧
+    </h1>
+
+
+
+        <div class="meta">
+            <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span itemprop="name">wjj</span>
+            </span>
+            
+<div class="postdate">
+    
+    <time datetime="2019-09-30T06:11:11.000Z" itemprop="datePublished">2019-09-30</time>
+     
+</div>
+
+ 
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/小游戏引擎/">小游戏引擎</a>
+    </div>
+
+ 
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Layabox/">Layabox</a>
+    </div>
+
+
+        </div>
+    </header>
+    
+
+    <div class="content" itemprop="articleBody">
+        <p>LayaBox 作为新生代的 H5 游戏引擎，号称用到了极致的性能（当然白鹭、cocos 也是这么说的），此文就记录一些工作过程中用到 laya 的一些技巧。</p>
+<h2 id="构建方式"><a href="#构建方式" class="headerlink" title="构建方式"></a>构建方式</h2><p>由于 Laya 的编辑是通过 vscode 改造的，当然很多功能也跟 vscode 进行了结合，编译的 F5 按键，开发的时候可能都已经按到手软。是时候解放双手了。</p>
+<p>Laya 在立项的时候可以选择 js、ts、as 作为变成语言，身为 f2er，当然集中于 js 和 ts。</p>
+<p><img src="/images/laya-skill/layaskill-1.png" alt></p>
+<p>上图为 laya 内置的 ts 编译脚本。gulp+browserify+tsify 将 ts 编译成 js，如果是 js 作为变成语言的话，是 gulp+browserify+babel，都是大同小异。</p>
+<p>都啥年代了还用 gulp，这是我不想用它的原因之一，webpack 操作起来。</p>
+<details><br><summary>webpack的代码，太长了点开查看</summary><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const webpack = require(&apos;webpack&apos;);</span><br><span class="line">const notifier = require(&apos;node-notifier&apos;);</span><br><span class="line">const HtmlWebpackPlugin = require(&quot;html-webpack-plugin&quot;);</span><br><span class="line">const FriendlyErrorsPlugin = require(&apos;friendly-errors-webpack-plugin&apos;);</span><br><span class="line">const merge = require(&apos;webpack-merge&apos;);</span><br><span class="line">const os = require(&apos;os&apos;)</span><br><span class="line">let localhost = &apos;&apos;</span><br><span class="line">try &#123;</span><br><span class="line">    var network = os.networkInterfaces()</span><br><span class="line">    localhost = network[Object.keys(network)[0]][1].address</span><br><span class="line">&#125; catch (e) &#123;</span><br><span class="line">    localhost = &apos;0.0.0.0&apos;</span><br><span class="line">&#125;</span><br><span class="line">function resolve(dir) &#123;</span><br><span class="line">    return path.join(__dirname, &apos;..&apos;, dir)</span><br><span class="line">&#125;</span><br><span class="line">let output = &#123;&#125;</span><br><span class="line">function createNotifierCallback() &#123;</span><br><span class="line">    return (severity, errors) =&gt; &#123;</span><br><span class="line">        if (severity !== &apos;error&apos;) return</span><br><span class="line"></span><br><span class="line">        const error = errors[0]</span><br><span class="line">        const filename = error.file &amp;&amp; error.file.split(&apos;!&apos;).pop()</span><br><span class="line"></span><br><span class="line">        notifier.notify(&#123;</span><br><span class="line">            title: &apos;你又写bug了！！&apos;,</span><br><span class="line">            message: severity + &apos;: &apos; + error.name,</span><br><span class="line">            subtitle: filename || &apos;&apos;,</span><br><span class="line">            icon: path.join(__dirname, &apos;logo.png&apos;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">let baseConfig = &#123; context: path.resolve(**dirname, &apos;./&apos;), entry: path.resolve(**dirname, &quot;./src/Main.js&quot;), output: &#123; publicPath: &quot;./&quot;, filename: &quot;./bin/js/bundle.js&quot; &#125;, resolve: &#123; extensions: [&quot;.json&quot;, &quot;.js&quot;] &#125;, devtool: &apos;#source-map&apos;, module: &#123; rules: [ &#123; test: /\.js\$/, loader: &apos;babel-loader&apos;, include: [resolve(&apos;./src&apos;), resolve(&apos;node_modules/webpack-dev-server/client&apos;)] &#125; ] &#125;, plugins: [ ] &#125;; let dev = &#123; output: &#123; publicPath: &quot;./&quot;, filename: &quot;./js/bundle.js&quot; &#125;, devServer: &#123; hot: false, contentBase: &apos;./bin&apos;, port: 7070, host: localhost, publicPath: &quot;/&quot;, compress: true, quiet: true, open: true, historyApiFallback: true, disableHostCheck: true, proxy: &#123; &apos;/api&apos;: &#123; target: `http://$&#123;localhost&#125;:4040` &#125; &#125; &#125;, devtool: &apos;cheap-module-eval-source-map&apos;, plugins: [ new HtmlWebpackPlugin(&#123; hash: false, template: &quot;./bin/index.html&quot; &#125;), new FriendlyErrorsPlugin(&#123; compilationSuccessInfo: &#123; messages: [`Your application is running here: http://$&#123;localhost&#125;:7070`], &#125;, onErrors: createNotifierCallback() &#125;) ] &#125;</span><br><span class="line"></span><br><span class="line">if (process.env.NODE_ENV == &apos;prod&apos;) &#123; output = baseConfig &#125; else &#123; output = merge(baseConfig, dev) &#125; module.exports = output</span><br></pre></td></tr></table></figure><br><br></details>
+
+<p>这里是 js 的，当我想 ts 加上个 ts-loader 也是没问题的，就时候就出现问题了。<del>当我们在 Laya 编辑模式下制作 ui，之后导出的时候。ts 版本下有一个 layaMaxUI.ts（js 版本无）的文件会自动删除然后生成，webpack 会找不到此文件报错，找不到解决办法，只能回退到 gulp 版本。</del> <strong>场景的导出模式用文件模式即可</strong>。</p>
+<details><br><br><summary>gulp的代码，太长了点开查看</summary><br><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">gulp.task(&quot;watchBin&quot;, function() &#123;</span><br><span class="line">  return watch([&quot;./bin/*&quot;, &quot;./bin/*/*&quot;, &quot;./bin/*/*/*&quot;], () =&gt; &#123;</span><br><span class="line">    clearTimeout(timer);</span><br><span class="line">    timer = setTimeout(() =&gt; &#123;</span><br><span class="line">      reflesh();</span><br><span class="line">    &#125;, 50);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">/* 刷新 */</span><br><span class="line">function reflesh() &#123;</span><br><span class="line">  gulp</span><br><span class="line">    .src(&quot;bin/index.html&quot;) //指定被刷新的html路径</span><br><span class="line">    .pipe(connect.reload());</span><br><span class="line">&#125;</span><br><span class="line">/* 编译 */</span><br><span class="line">function compile() &#123;</span><br><span class="line">  browserify(&#123;</span><br><span class="line">    basedir: &quot;./&quot;,</span><br><span class="line">    //是否开启调试，开启后会生成jsmap，方便调试ts源码，但会影响编译速度</span><br><span class="line">    debug: false,</span><br><span class="line">    entries: [&quot;src/Main.ts&quot;],</span><br><span class="line">    cache: &#123;&#125;,</span><br><span class="line">    packageCache: &#123;&#125;</span><br><span class="line">  &#125;)</span><br><span class="line">    //使用tsify插件编译ts</span><br><span class="line">    .plugin(tsify)</span><br><span class="line">    .bundle()</span><br><span class="line">    .on(&quot;error&quot;, function(err) &#123;</span><br><span class="line">      /* 报错信息 */</span><br><span class="line">      console.log(err.message);</span><br><span class="line">      this.emit(&quot;end&quot;);</span><br><span class="line">    &#125;)</span><br><span class="line">    //使用source把输出文件命名为bundle.js</span><br><span class="line">    .pipe(source(&quot;bundle.js&quot;))</span><br><span class="line">    //把bundle.js复制到bin/js目录</span><br><span class="line">    .pipe(gulp.dest(&quot;./bin/js&quot;))</span><br><span class="line">    .pipe(connect.reload());</span><br><span class="line">&#125;</span><br><span class="line">/* ui文件是否存在 */</span><br><span class="line">function isExists() &#123;</span><br><span class="line">  /* 先创建一个ui 才会开始编译 */</span><br><span class="line">  fs.exists(&quot;./src/ui/layaMaxUI.ts&quot;, function(exists) &#123;</span><br><span class="line">    if (exists) &#123;</span><br><span class="line">      compile();</span><br><span class="line">      // _.debounce(compile, 200, true)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      clearTimeout(timer2);</span><br><span class="line">      timer2 = setTimeout(() =&gt; &#123;</span><br><span class="line">        isExists();</span><br><span class="line">      &#125;, 50);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br><span class="line">gulp.task(&quot;watchSrc&quot;, function() &#123;</span><br><span class="line">  return watch([&quot;./src/*&quot;, &quot;./src/*/*&quot;, &quot;./src/*/*/*&quot;], () =&gt; &#123;</span><br><span class="line">    isExists();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">gulp.task(&quot;connect&quot;, function() &#123;</span><br><span class="line">  connect.server(&#123;</span><br><span class="line">    root: [&quot;./bin&quot;],</span><br><span class="line">    host: localhost,</span><br><span class="line">    port: 7070,</span><br><span class="line">    livereload: true,</span><br><span class="line">    middleware: function(connect, opt) &#123;</span><br><span class="line">      return [</span><br><span class="line">        proxy(&quot;/api&quot;, &#123;</span><br><span class="line">          target: `http://$&#123;localhost&#125;:4040`,</span><br><span class="line">          changeOrigin: true</span><br><span class="line">        &#125;),</span><br><span class="line">        (req, res, next) =&gt; &#123;</span><br><span class="line">          next();</span><br><span class="line">        &#125;</span><br><span class="line">      ];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;);</span><br><span class="line">gulp.task(&quot;default&quot;, [&quot;connect&quot;, &quot;watchBin&quot;]);</span><br></pre></td></tr></table></figure><br><br>只是将 <strong>.laya</strong> 文件夹中的 <strong>compile.js</strong> 复制出来，然后用 gulp 建一个服务器，监视文件刷新。<br><br></details>
+
+<h2 id="背景的平铺"><a href="#背景的平铺" class="headerlink" title="背景的平铺"></a>背景的平铺</h2><p>css 经常会用到 1px 的背景平铺，Laya 里面也可以用。</p>
+<p>在场景中创建一个 <strong>FillTexture</strong> 的组件，按照需求设置一下属性配置。</p>
+<p><img src="/images/laya-skill/layaskill-2.png" alt></p>
+<p>需要平铺的图片</p>
+<p><img src="/images/laya-skill/jiku-bg-line.png" alt></p>
+<p>效果图：</p>
+<p><img src="/images/laya-skill/layaskill-3.png" alt></p>
+<p><strong>这样高度可以自己调控，还可以减少很多消耗。</strong></p>
+<h2 id="字体切片"><a href="#字体切片" class="headerlink" title="字体切片"></a>字体切片</h2><p>游戏内经常有一个场景就是 用户所赚取的积分是用特殊字体展示的，如果这些字体能用 ttf 来体现，我们还能用 <strong>Text</strong> 组件，然后设置 font 属性来完成这个需求。但是如果字体是设计师自己话的呢？这里就用到了 Laya 里面的一个字体切片，方法简单，速度快。</p>
+<p>例如此效果： <img src="/images/laya-skill/layaskill-4.png" alt></p>
+<p>素材： <img src="/images/laya-skill/sprites.png" alt></p>
+<p>首先创建一个 <strong>FontClip</strong> 组件。</p>
+<p><img src="/images/laya-skill/layaskill-5.png" alt></p>
+<p><strong>skin</strong> 就是我们需要用到的图片切片，而 <strong>sheet</strong> 就是相对于切片所代表的数值，相当于映射。然后只要改变 <strong>value</strong> 就可以显示相对应的数值。</p>
+<p>其他的数值可以查看 Laya 对 <a href="http://layaair.ldc.layabox.com/api2/Chinese/laya/ui/FontClip.html" target="_blank" rel="noopener">FontClip 组件的文档说明</a>。</p>
+<p>有一个需要注意的点是，每个映射的区块大小要一致，否则会出现切割错误。</p>
+<p>部分游戏：</p>
+<ul>
+<li><a href="http://huodong.4399.cn/game/minigame/game/AircraftWar/index" target="_blank" rel="noopener">飞鸡大战</a></li>
+<li><a href="http://huodong.4399.cn/game/minigame/game/DemonIsland/index" target="_blank" rel="noopener">逃出恶魔岛</a></li>
+<li><a href="http://huodong.4399.cn/game/minigame/game/doNotHitMe/index" target="_blank" rel="noopener">别碰我</a></li>
+</ul>
+<h1 id="End"><a href="#End" class="headerlink" title="End"></a>End</h1>
+    </div>
+</article>
+  
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<div id="vcomments" class="blog-post-comments"></div>
+<script>
+    new Valine({
+        el: "#vcomments",
+        visitor: true,
+        appId: "2xcWTiUA1azC7qF6MSMdw05m-gzGzoHsz",
+        appKey: "PT30B2tFSuw0EUwKKyu0629o",
+        placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+        avatar: "wjj5728"
+    });
+</script>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#构建方式"><span class="toc-number">1.</span> <span class="toc-text">构建方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#背景的平铺"><span class="toc-number">2.</span> <span class="toc-text">背景的平铺</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字体切片"><span class="toc-number">3.</span> <span class="toc-text">字体切片</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#End"><span class="toc-number"></span> <span class="toc-text">End</span></a>
+    </li></div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://jjjjjj.wang/2019/09/30/laya-skill/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://jjjjjj.wang/2019/09/30/laya-skill/&text=记录一些使用Layabox的技巧"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://jjjjjj.wang/2019/09/30/laya-skill/&title=记录一些使用Layabox的技巧"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jjjjjj.wang/2019/09/30/laya-skill/&is_video=false&description=记录一些使用Layabox的技巧"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=记录一些使用Layabox的技巧&body=Check out this article: https://jjjjjj.wang/2019/09/30/laya-skill/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://jjjjjj.wang/2019/09/30/laya-skill/&title=记录一些使用Layabox的技巧"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://jjjjjj.wang/2019/09/30/laya-skill/&title=记录一些使用Layabox的技巧"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://jjjjjj.wang/2019/09/30/laya-skill/&title=记录一些使用Layabox的技巧"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://jjjjjj.wang/2019/09/30/laya-skill/&title=记录一些使用Layabox的技巧"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://jjjjjj.wang/2019/09/30/laya-skill/&name=记录一些使用Layabox的技巧&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2021 wjj5728
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<!-- <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"> -->
+<link href="https://cdn.bootcss.com/font-awesome/5.2.0/css/all.min.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css"> -->
+<link href="https://cdn.bootcss.com/justifiedGallery/3.7.0/css/justifiedGallery.min.css" rel="stylesheet">
+
+    <!-- jquery -->
+<!-- <script src="/lib/jquery/jquery.min.js"></script>  -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>  -->
+<script src="https://cdn.bootcss.com/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- gitalk -->
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?aba5976c4f26b44fdd1725fe918f86f1";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="description" content="因为在使用 ts 的过程中，经常遇到 never 一直没有深入的去了解，这一次深入地去学习了一下，并找出了几个使用场景。 收集了各个地方对于 never 的解释  从字面上理解，never 代表着永远不可能 收窄类型 never 是一个空集合，任何值都不能冠以类型 never  1T | never =&amp;gt; T  一个来自于@尤雨溪收窄类型类型的例子  123456789interface F">
+<meta name="keywords" content="typescript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="never的一些使用场景">
+<meta property="og:url" content="https://jjjjjj.wang/2021/02/07/never的一些使用场景/index.html">
+<meta property="og:site_name" content="wjj">
+<meta property="og:description" content="因为在使用 ts 的过程中，经常遇到 never 一直没有深入的去了解，这一次深入地去学习了一下，并找出了几个使用场景。 收集了各个地方对于 never 的解释  从字面上理解，never 代表着永远不可能 收窄类型 never 是一个空集合，任何值都不能冠以类型 never  1T | never =&amp;gt; T  一个来自于@尤雨溪收窄类型类型的例子  123456789interface F">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2021-02-10T02:17:43.869Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="never的一些使用场景">
+<meta name="twitter:description" content="因为在使用 ts 的过程中，经常遇到 never 一直没有深入的去了解，这一次深入地去学习了一下，并找出了几个使用场景。 收集了各个地方对于 never 的解释  从字面上理解，never 代表着永远不可能 收窄类型 never 是一个空集合，任何值都不能冠以类型 never  1T | never =&amp;gt; T  一个来自于@尤雨溪收窄类型类型的例子  123456789interface F">    
+    <link rel="shortcut icon" href="/images/favicon.ico">
+       
+    <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+       
+    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+      
+    <!-- title -->
+    <title>never的一些使用场景</title>
+    <!-- styles -->
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- persian styles -->
+     <link rel="stylesheet" href="/css/rtl.css"> 
+    <!-- rss -->
+     
+</head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </span>
+    <br>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2021/02/10/对五年前的自己说些什么/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/2021/02/01/如何使用rollup构建一个JS库/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">上一篇</span>
+      <span id="i-next" class="info" style="display:none;">下一篇</span>
+      <span id="i-top" class="info" style="display:none;">返回顶部</span>
+      <span id="i-share" class="info" style="display:none;">分享文章</span>
+    </span>
+    <br>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://jjjjjj.wang/2021/02/07/never的一些使用场景/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&text=never的一些使用场景"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&title=never的一些使用场景"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&is_video=false&description=never的一些使用场景"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=never的一些使用场景&body=Check out this article: https://jjjjjj.wang/2021/02/07/never的一些使用场景/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&title=never的一些使用场景"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&title=never的一些使用场景"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&title=never的一些使用场景"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&title=never的一些使用场景"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&name=never的一些使用场景&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#参考："><span class="toc-number">1.</span> <span class="toc-text">参考：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#End"><span class="toc-number">2.</span> <span class="toc-text">End</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+    <header>
+        
+    <h1 class="posttitle" itemprop="name headline">
+        never的一些使用场景
+    </h1>
+
+
+
+        <div class="meta">
+            <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                <span itemprop="name">wjj</span>
+            </span>
+            
+<div class="postdate">
+    
+    <time datetime="2021-02-07T06:07:14.000Z" itemprop="datePublished">2021-02-07</time>
+     
+</div>
+
+ 
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/代码/">代码</a>
+    </div>
+
+ 
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/typescript/">typescript</a>
+    </div>
+
+
+        </div>
+    </header>
+    
+
+    <div class="content" itemprop="articleBody">
+        <p>因为在使用 ts 的过程中，经常遇到 never 一直没有深入的去了解，这一次深入地去学习了一下，并找出了几个使用场景。</p>
+<p>收集了各个地方对于 never 的解释</p>
+<ul>
+<li>从字面上理解，never 代表着永远不可能</li>
+<li>收窄类型</li>
+<li>never 是一个空集合，任何值都不能冠以类型 never</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">T | never =&gt; T</span><br></pre></td></tr></table></figure>
+<ol>
+<li>一个来自于@尤雨溪收窄类型类型的例子</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Foo &#123;</span><br><span class="line">  <span class="keyword">type</span>: <span class="string">'foo'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">interface</span> Bar &#123;</span><br><span class="line">  <span class="keyword">type</span>: <span class="string">'bar'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> All = Foo | Bar;</span><br></pre></td></tr></table></figure>
+<p>在 switch 当中判断 type，TS 是可以收窄类型(discriminated union)的 ：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">handleValue</span>(<span class="params">val: All</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span> (val.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'foo'</span>:</span><br><span class="line">      <span class="comment">// 这里 val 被收窄为 Foo</span></span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'bar'</span>:</span><br><span class="line">      <span class="comment">// val 在这里是 Bar</span></span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="comment">// val 在这里是 never</span></span><br><span class="line">      <span class="keyword">const</span> exhaustiveCheck: never = val;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意在 default 里面我们把被收窄为 never 的 val 赋值给一个显式声明为 never 的变量。如果一切逻辑正确，那么这里应该能够编译通过。但是假如后来有一天你的同事改了 All 的类型：</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> All = Foo | Bar | Baz;</span><br></pre></td></tr></table></figure>
+<p>然而他忘记了在 handleValue 里面加上针对 Baz 的处理逻辑，这个时候在 default branch 里面 val 会被收窄为 Baz，导致无法赋值给 never，产生一个编译错误。所以通过这个办法，你可以确保 handleValue 总是穷尽 (exhaust) 了所有 All 的可能类型。</p>
+<ol start="2">
+<li>收窄类型</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="keyword">get</span>&lt;T&gt; = T <span class="keyword">extends</span> (arg: infer R) =&gt; <span class="built_in">any</span> ? R : never;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ddd: <span class="keyword">get</span>&lt;<span class="string">'asdasdasd'</span>&gt; = <span class="number">3</span>; <span class="comment">/** 不能将类型“number”分配给类型“never **/</span></span><br><span class="line"><span class="keyword">const</span> ddd: <span class="keyword">get</span>&lt;<span class="function">(<span class="params">a: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span>&gt; = <span class="number">3</span>; <span class="comment">/** 🆗 **/</span></span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>抽取公共的部分</li>
+</ol>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> A = &#123;</span><br><span class="line">  a: <span class="built_in">number</span>;</span><br><span class="line">  b: <span class="string">'b'</span>;</span><br><span class="line">  c: never;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">type</span> B = keyof A; <span class="comment">// type B = "a" | "b" | "c"</span></span><br><span class="line"><span class="keyword">type</span> C = A[B]; <span class="comment">// number | "b", 这里 never 去除了</span></span><br></pre></td></tr></table></figure>
+<p>当有一个 interface，想找出某些匹配类型的 key 值</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> Person &#123;</span><br><span class="line">  id: <span class="built_in">number</span>;</span><br><span class="line">  name: <span class="built_in">string</span>;</span><br><span class="line">  lastName: <span class="built_in">string</span>;</span><br><span class="line">  load: <span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">Promise</span>&lt;Person&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>就需要遍历接口的每一个属性，然后判断类型返回</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> FilterName&lt;Base, Name&gt; = &#123;</span><br><span class="line">  [P <span class="keyword">in</span> keyof Base]: Base[P] <span class="keyword">extends</span> Name ? P : never;</span><br><span class="line">&#125;[keyof Base];</span><br><span class="line"><span class="keyword">type</span> Result = FilterName&lt;Person, <span class="built_in">string</span> | <span class="built_in">number</span>&gt;; <span class="comment">// type Result = "id" | "name" | "lastName"</span></span><br></pre></td></tr></table></figure>
+<h1 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h1><ul>
+<li><a href="https://www.zhihu.com/question/354601204" target="_blank" rel="noopener">https://www.zhihu.com/question/354601204</a></li>
+</ul>
+<h1 id="End"><a href="#End" class="headerlink" title="End"></a>End</h1>
+    </div>
+</article>
+  
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+<div id="vcomments" class="blog-post-comments"></div>
+<script>
+    new Valine({
+        el: "#vcomments",
+        visitor: true,
+        appId: "2xcWTiUA1azC7qF6MSMdw05m-gzGzoHsz",
+        appKey: "PT30B2tFSuw0EUwKKyu0629o",
+        placeholder: "ヾﾉ≧∀≦)o来啊，快活啊!",
+        avatar: "wjj5728"
+    });
+</script>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#参考："><span class="toc-number">1.</span> <span class="toc-text">参考：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#End"><span class="toc-number">2.</span> <span class="toc-text">End</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://jjjjjj.wang/2021/02/07/never的一些使用场景/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&text=never的一些使用场景"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&title=never的一些使用场景"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&is_video=false&description=never的一些使用场景"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=never的一些使用场景&body=Check out this article: https://jjjjjj.wang/2021/02/07/never的一些使用场景/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&title=never的一些使用场景"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&title=never的一些使用场景"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&title=never的一些使用场景"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&title=never的一些使用场景"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://jjjjjj.wang/2021/02/07/never的一些使用场景/&name=never的一些使用场景&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> 菜单</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> 目录</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> 分享</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> 返回顶部</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2021 wjj5728
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">首页</a></li>
+         
+          <li><a href="/about/">关于</a></li>
+         
+          <li><a href="/archives/">归档</a></li>
+         
+          <li><a href="/categories/">分类</a></li>
+         
+          <li><a href="/tags/">标签</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+<!-- <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"> -->
+<link href="https://cdn.bootcss.com/font-awesome/5.2.0/css/all.min.css" rel="stylesheet">
+<!-- <link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css"> -->
+<link href="https://cdn.bootcss.com/justifiedGallery/3.7.0/css/justifiedGallery.min.css" rel="stylesheet">
+
+    <!-- jquery -->
+<!-- <script src="/lib/jquery/jquery.min.js"></script>  -->
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<!-- <script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>  -->
+<script src="https://cdn.bootcss.com/justifiedGallery/3.7.0/js/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- gitalk -->
+<link rel="stylesheet" href="https://unpkg.com/gitalk/dist/gitalk.css">
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?aba5976c4f26b44fdd1725fe918f86f1";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
