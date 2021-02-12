@@ -6,15 +6,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="HandheldFriendly" content="True">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <meta name="keywords" content="rollup">
+    <meta name="description" content="首先抛开 rollup，先说一下一个标准的 js 库所要具备的特性  完善的代码智能提示 同时生成 AMD、CMD、UMD、ES Module、commonjs 等模块化方案 单元测试 还有一些其他编辑器规范、协议等等  目前市面上的构建工具有 webpack、rollup 等，还有一些最近大火的：microbundle、vite（这两款都是基于 rollup） 项目结构|– dist|– exa">
+<meta name="keywords" content="rollup">
 <meta property="og:type" content="article">
 <meta property="og:title" content="如何使用rollup构建一个JS库">
 <meta property="og:url" content="https://jjjjjj.wang/2021/02/01/如何使用rollup构建一个JS库/index.html">
 <meta property="og:site_name" content="wjj">
+<meta property="og:description" content="首先抛开 rollup，先说一下一个标准的 js 库所要具备的特性  完善的代码智能提示 同时生成 AMD、CMD、UMD、ES Module、commonjs 等模块化方案 单元测试 还有一些其他编辑器规范、协议等等  目前市面上的构建工具有 webpack、rollup 等，还有一些最近大火的：microbundle、vite（这两款都是基于 rollup） 项目结构|– dist|– exa">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2021-02-10T02:17:43.871Z">
+<meta property="og:image" content="https://jjjjjj.wang/images/rollup/16072619203588.png">
+<meta property="og:updated_time" content="2021-02-12T03:43:51.947Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="如何使用rollup构建一个JS库">    
+<meta name="twitter:title" content="如何使用rollup构建一个JS库">
+<meta name="twitter:description" content="首先抛开 rollup，先说一下一个标准的 js 库所要具备的特性  完善的代码智能提示 同时生成 AMD、CMD、UMD、ES Module、commonjs 等模块化方案 单元测试 还有一些其他编辑器规范、协议等等  目前市面上的构建工具有 webpack、rollup 等，还有一些最近大火的：microbundle、vite（这两款都是基于 rollup） 项目结构|– dist|– exa">
+<meta name="twitter:image" content="https://jjjjjj.wang/images/rollup/16072619203588.png">    
     <link rel="shortcut icon" href="/images/favicon.ico">
        
     <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
@@ -87,8 +92,8 @@
 
     </div>
     <div id="toc">
-      
-    </div>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#rollup-config-js"><span class="toc-number">1.</span> <span class="toc-text">rollup.config.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Typescript-支持"><span class="toc-number">2.</span> <span class="toc-text">Typescript 支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码压缩"><span class="toc-number">3.</span> <span class="toc-text">代码压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码检测-eslint"><span class="toc-number">4.</span> <span class="toc-text">代码检测 eslint</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">5.</span> <span class="toc-text">注意</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#End"><span class="toc-number"></span> <span class="toc-text">End</span></a>
+    </li></div>
   </span>
 </div>
 
@@ -133,7 +138,37 @@
     
 
     <div class="content" itemprop="articleBody">
-        
+        <p>首先抛开 rollup，先说一下一个标准的 js 库所要具备的特性</p>
+<ol>
+<li>完善的代码智能提示</li>
+<li>同时生成 AMD、CMD、UMD、ES Module、commonjs 等模块化方案</li>
+<li>单元测试</li>
+<li>还有一些其他编辑器规范、协议等等</li>
+</ol>
+<p>目前市面上的构建工具有 webpack、rollup 等，还有一些最近大火的：microbundle、vite（这两款都是基于 rollup）</p>
+<p>项目结构<br>|– dist<br>|– example<br>|– src<br>|– types<br>|– .browserslistrc<br>|– .editorconfig<br>|– .eslintignore<br>|– .eslintrc.js<br>|– .gitignore<br>|– config.js<br>|– package.json<br>|– rollup.config.json<br>|– tsconfig.json</p>
+<h2 id="rollup-config-js"><a href="#rollup-config-js" class="headerlink" title="rollup.config.js"></a>rollup.config.js</h2><p><strong>input</strong> 就是入口文件路径<br><strong>output</strong> 是导出文件的路径，可以是一个对象，也可以是一个数组，因为我们要考虑到打包后的文件的多个模块形式。所以可以根据配置配置多个。<br><strong>external</strong> 告诉 rollup 填写的包不进行打包，而是作为外部依赖<br><strong>plugins</strong> 是 rollup 使用的一些插件，常用的如下</p>
+<ul>
+<li>@rollup/plugin-node-resolve rollup 无法识别 node_modules 中的包，使用这个插件解决</li>
+<li>@rollup/plugin-node-resolve node_modules 中的包大部分都是 commonjs 格式的，要在 rollup 中使用必须先转为 ES6 语法<br>注：之前的插件是 rollup-plugin-node-resolve，目前 rollup 已经将一些插件放到@rollup 命名下面。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> nodeResolve <span class="keyword">from</span> <span class="string">'@rollup/plugin-node-resolve'</span>;</span><br><span class="line"><span class="keyword">import</span> commonjs <span class="keyword">from</span> <span class="string">'@rollup/plugin-commonjs'</span>;</span><br><span class="line"><span class="keyword">var</span> config = <span class="built_in">require</span>(<span class="string">'./config.js'</span>);</span><br><span class="line"><span class="keyword">const</span> env = process.env.NODE_ENV == <span class="string">'production'</span>;</span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  input: <span class="string">'src/index.ts'</span>,</span><br><span class="line">  output: [</span><br><span class="line">    &#123;</span><br><span class="line">      file: <span class="string">'dist/index.js'</span>,</span><br><span class="line">      format: <span class="string">'umd'</span>,</span><br><span class="line">      name: config.name,</span><br><span class="line">      banner: config.banner,</span><br><span class="line">      <span class="comment">/**如果需要去除Object.definePropert 这个ie8不支持 */</span></span><br><span class="line">      esModule: <span class="literal">false</span>,</span><br><span class="line">      plugins: [],</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      file: <span class="string">'dist/index.es.js'</span>,</span><br><span class="line">      format: <span class="string">'es'</span>,</span><br><span class="line">      banner: config.banner,</span><br><span class="line">      plugins: [],</span><br><span class="line">    &#125;,</span><br><span class="line">  ],</span><br><span class="line">  external: [],</span><br><span class="line">  plugins: [</span><br><span class="line">    nodeResolve(&#123;</span><br><span class="line">      main: <span class="literal">true</span>,</span><br><span class="line">      extensions: [<span class="string">'.ts'</span>, <span class="string">'.js'</span>],</span><br><span class="line">    &#125;),</span><br><span class="line">    commonjs(&#123;</span><br><span class="line">      include: <span class="string">'node_modules/**'</span>,</span><br><span class="line">    &#125;),</span><br><span class="line">  ],</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h2 id="Typescript-支持"><a href="#Typescript-支持" class="headerlink" title="Typescript 支持"></a>Typescript 支持</h2><p>Typescript 作为 Javascript 的超集，在 github 的受欢迎程度今年飙升。<br><img src="/images/rollup/16072619203588.png" alt></p>
+<p>首先我们可通过</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc --init</span><br></pre></td></tr></table></figure>
+<p>然后选择一些自己配置需要的</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"compilerOptions"</span>: &#123;</span><br><span class="line">    <span class="attr">"target"</span>: <span class="string">"ES5"</span>,</span><br><span class="line">    <span class="attr">"module"</span>: <span class="string">"ESNext"</span>,</span><br><span class="line">    <span class="attr">"noImplicitAny"</span>: <span class="literal">true</span>,</span><br><span class="line">    "declaration": true, // 生成.d.js的声明文件  用于代码提示</span><br><span class="line">    "declarationDir": "./types" // 声明文件的存放文件夹</span><br><span class="line">  &#125;,</span><br><span class="line">  "include": ["src/**/*.ts"],</span><br><span class="line">  "exclude": ["node_modules"]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>然后安装 ts 插件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> typescript <span class="keyword">from</span> <span class="string">'rollup-plugin-typescript2'</span>;</span><br><span class="line"></span><br><span class="line">plugin: [</span><br><span class="line">  ...,</span><br><span class="line">  typescript(&#123;</span><br><span class="line">    useTsconfigDeclarationDir: <span class="literal">true</span>, <span class="comment">// 生成声明文件的配置使用的是tsconfig中的</span></span><br><span class="line">  &#125;),</span><br><span class="line">];</span><br></pre></td></tr></table></figure>
+<h2 id="代码压缩"><a href="#代码压缩" class="headerlink" title="代码压缩"></a>代码压缩</h2><p><strong>rollup-plugin-terser</strong> VS <strong>rollup-plugin-uglify</strong></p>
+<blockquote>
+<p>Note: uglify-js is able to transpile only es5 syntax. If you want to transpile es6+ syntax use terser instead</p>
+</blockquote>
+<p><strong>rollup-plugin-uglify</strong>无法更好转义 es6 以上的语法，所以现在基本都是使用的<strong>rollup-plugin-terser</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; terser &#125; <span class="keyword">from</span> <span class="string">'rollup-plugin-terser'</span>;</span><br><span class="line"></span><br><span class="line">plugins: [</span><br><span class="line">    ...,</span><br><span class="line">    terser()</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h2 id="代码检测-eslint"><a href="#代码检测-eslint" class="headerlink" title="代码检测 eslint"></a>代码检测 eslint</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; eslint &#125; <span class="keyword">from</span> <span class="string">'rollup-plugin-eslint'</span>;</span><br><span class="line">plugins: [</span><br><span class="line">    ...,</span><br><span class="line">    eslint(&#123;</span><br><span class="line">      throwOnError: <span class="literal">true</span>,</span><br><span class="line">      throwOnWarning: <span class="literal">true</span>,</span><br><span class="line">      include: [<span class="string">'src/**/*.ts'</span>],</span><br><span class="line">      exclude: [<span class="string">'node_modules/**'</span>],</span><br><span class="line">    &#125;),</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>如果是要打包静态资源，比如 css，图片等，虽然 rollup 是有插件支持，但是术业有专攻，还是使用 webpack。</p>
+<h1 id="End"><a href="#End" class="headerlink" title="End"></a>End</h1>
     </div>
 </article>
   
@@ -174,8 +209,8 @@
     </div>
 
     <div id="toc-footer" style="display: none">
-      
-    </div>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#rollup-config-js"><span class="toc-number">1.</span> <span class="toc-text">rollup.config.js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Typescript-支持"><span class="toc-number">2.</span> <span class="toc-text">Typescript 支持</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码压缩"><span class="toc-number">3.</span> <span class="toc-text">代码压缩</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码检测-eslint"><span class="toc-number">4.</span> <span class="toc-text">代码检测 eslint</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#注意"><span class="toc-number">5.</span> <span class="toc-text">注意</span></a></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#End"><span class="toc-number"></span> <span class="toc-text">End</span></a>
+    </li></div>
 
     <div id="share-footer" style="display: none">
       <ul>
